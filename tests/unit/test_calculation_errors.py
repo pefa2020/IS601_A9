@@ -5,12 +5,20 @@ from app.models.calculation import (
     Addition,
     Subtraction,
     Multiplication,
-    Division
+    Division,
+    Calculation
 )
 
 
 class TestCalculationErrorHandling:
     """Tests for error handling in calculation subclasses."""
+    
+    def test_base_calculation_get_result_not_implemented(self):
+        """Test that base Calculation.get_result() raises NotImplementedError."""
+        # Base Calculation class should raise NotImplementedError when get_result is called
+        calc = Calculation(user_id="test-user", inputs=[1, 2])
+        with pytest.raises(NotImplementedError, match="Subclasses must implement"):
+            calc.get_result()
     
     def test_addition_with_non_list_inputs(self):
         """Test Addition raises ValueError when inputs is not a list."""

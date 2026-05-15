@@ -3,7 +3,7 @@
 import pytest
 from uuid import uuid4
 from pydantic import ValidationError
-from app.schemas.calculation import CalculationCreate, CalculationUpdate, CalculationType
+from app.schemas.calculation import CalculationCreate, CalculationUpdate, CalculationType, CalculationBase
 
 
 class TestCalculationCreateValidation:
@@ -85,3 +85,26 @@ class TestCalculationUpdateValidation:
         """Test CalculationUpdate with float inputs."""
         update = CalculationUpdate(inputs=[10.5, 2.5])
         assert update.inputs == [10.5, 2.5]
+
+
+class TestSchemaConfiguration:
+    """Tests for schema model configuration."""
+    
+    def test_calculation_base_has_model_config(self):
+        """Test that CalculationBase has model_config."""
+        assert hasattr(CalculationBase, 'model_config')
+        assert CalculationBase.model_config is not None
+    
+    def test_calculation_create_has_model_config(self):
+        """Test that CalculationCreate has model_config."""
+        assert hasattr(CalculationCreate, 'model_config')
+        assert CalculationCreate.model_config is not None
+        # Verify json_schema_extra is present
+        assert 'json_schema_extra' in CalculationCreate.model_config
+    
+    def test_calculation_update_has_model_config(self):
+        """Test that CalculationUpdate has model_config."""
+        assert hasattr(CalculationUpdate, 'model_config')
+        assert CalculationUpdate.model_config is not None
+        # Verify json_schema_extra is present
+        assert 'json_schema_extra' in CalculationUpdate.model_config
